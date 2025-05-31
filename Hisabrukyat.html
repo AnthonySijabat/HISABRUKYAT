@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animasi Hisab dan Rukyat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+    .scene {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+      transition: all 1s ease-in-out;
+    }
+    .hilal {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, transparent);
+      box-shadow: 0 0 30px #f9f9f9;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #00b894;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    input[type="number"] {
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene" id="scene1">
+    <h1>Hisab dan Rukyat</h1>
+    <p>Menentukan Awal Bulan Hijriyah</p>
+    <button class="btn" onclick="nextScene(2)">Mulai</button>
+  </div>
+
+  <div class="scene" id="scene2" style="display:none;">
+    <h2>Apa itu Hisab?</h2>
+    <p>Hisab adalah perhitungan posisi bulan dan matahari secara astronomis.</p>
+    <button class="btn" onclick="nextScene(3)">Lanjut</button>
+  </div>
+
+  <div class="scene" id="scene3" style="display:none;">
+    <h2>Apa itu Rukyat?</h2>
+    <p>Rukyat adalah observasi langsung terhadap hilal saat matahari terbenam.</p>
+    <div class="hilal"></div>
+    <button class="btn" onclick="nextScene(4)">Lanjut</button>
+  </div>
+
+  <div class="scene" id="scene4" style="display:none;">
+    <h2>Kombinasi Hisab dan Rukyat</h2>
+    <p>Pemerintah menggunakan keduanya dalam sidang isbat untuk menentukan awal bulan.</p>
+    <button class="btn" onclick="nextScene(5)">Lanjut</button>
+  </div>
+
+  <div class="scene" id="scene5" style="display:none;">
+    <h2>Contoh Penerapan</h2>
+    <p>Masukkan tahun hijriyah untuk melihat prediksi awal Ramadan:</p>
+    <input type="number" id="inputYear" placeholder="Contoh: 1446">
+    <button class="btn" onclick="predictHilal()">Prediksi</button>
+    <p id="result"></p>
+    <button class="btn" onclick="nextScene(6)">Lanjut</button>
+  </div>
+
+  <div class="scene" id="scene6" style="display:none;">
+    <h2>Penutup</h2>
+    <p>Hisab untuk presisi, rukyat untuk konfirmasi.</p>
+    <p>Ilmu dan iman berjalan beriringan.</p>
+    <button class="btn" onclick="nextScene(1)">Ulangi</button>
+  </div>
+
+  <script>
+    function nextScene(sceneNumber) {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById('scene' + i).style.display = 'none';
+      }
+      document.getElementById('scene' + sceneNumber).style.display = 'flex';
+    }
+
+    function predictHilal() {
+      const year = parseInt(document.getElementById('inputYear').value);
+      const result = document.getElementById('result');
+
+      if (isNaN(year) || year < 1400 || year > 1600) {
+        result.textContent = 'Masukkan tahun hijriyah yang valid (1400 - 1600).';
+        return;
+      }
+
+      // Algoritma simulasi prediksi (sederhana, bukan astronomi real)
+      const baseDate = new Date('2025-03-11'); // Ramadan 1446 H diperkirakan mulai 1 Ramadan = 11 Maret 2025
+      const offset = (year - 1446) * 354.367;
+      const predDate = new Date(baseDate.getTime() + offset * 24 * 60 * 60 * 1000);
+      const formattedDate = predDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+      result.textContent = `Perkiraan 1 Ramadan ${year} H adalah sekitar ${formattedDate}`;
+    }
+  </script>
+
+</body>
+</html>
